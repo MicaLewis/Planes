@@ -66,7 +66,13 @@ anglSpd = 3;
             with(trgt) instance_destroy()
         }
     }
-    ds_queue_enqueue(trgts, instance_create(mouse_x, mouse_y, Target))
+    trgt = ds_queue_tail(trgts)
+    new = instance_create(mouse_x, mouse_y, Target)
+    if(trgt == 0)
+        new.next = id
+    else
+        new.next = trgt
+    ds_queue_enqueue(trgts, new)
 }
 
 trgt = ds_queue_head(trgts)
@@ -75,16 +81,19 @@ radius = 180/anglSpd*spd/pi
 if(trgt != 0){
     anglTo = angle_difference(point_direction(x, y, trgt.x, trgt.y), angl)
     angl += min(abs(anglTo), anglSpd) * sign(anglTo)
-    if(point_distance(trgt.x, trgt.y,
+    inRadius = point_distance(trgt.x, trgt.y,
         x + dcos(angl+90*sign(anglTo))*radius,
-        y + dsin(angl-90*sign(anglTo))*radius) &lt; radius){
+        y + dsin(angl-90*sign(anglTo))*radius) &lt; radius
+    if(inRadius){
         spd -= min(.05, spd-minspd)
     } else {
         spd += min(.05, maxspd-spd)
     }
-    if(point_distance(x,y,trgt.x,trgt.y) &lt; spd){
+    if(point_distance(x,y,trgt.x,trgt.y) &lt; spd or (spd == minspd and inRadius)){
         trgt = ds_queue_dequeue(trgts)
-        with(trgt) instance_destroy()
+        with(trgt) instance_destroy();
+        trgt = ds_queue_head(trgts)
+        trgt.next = id
     }
 } else {
     angl += anglSpd
