@@ -36,6 +36,7 @@ minspd = 1;
 spd = 5;
 angl = 0;
 anglSpd = 3;
+team = 0;
 //drag = 10;
 </string>
           </argument>

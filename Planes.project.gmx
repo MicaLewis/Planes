@@ -11,9 +11,14 @@
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
+  <scripts name="scripts">
+    <script>scripts\script0.gml</script>
+  </scripts>
   <objects name="objects">
     <object>objects\Plane</object>
     <object>objects\Target</object>
+    <object>objects\Weapon</object>
+    <object>objects\Range</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>
