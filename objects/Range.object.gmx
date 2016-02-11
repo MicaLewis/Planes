@@ -30,8 +30,11 @@
 freq = 1
 frame = 0
 
-// 0 = Rect, 1 = arc, 2 = ellipse, 3 = taxicab?
-type = 0;
+calc = script_get_name(Arc_Collision)
+x1 = 10
+y1 = 100
+x2 = 
+y2 = 0
 </string>
           </argument>
         </arguments>
@@ -55,13 +58,39 @@ type = 0;
           <argument>
             <kind>1</kind>
             <string>if(frame%freq == 0){
+    ds_list_clear(contains)
     count = instance_number(Plane)
     for(i = 0; i &lt; count; i ++){
-        inst = instance_find()
+        inst = instance_find(Plane, i)
+        if ( script_execute(method, inst.x, inst.y, x1, y2, x2, y2) ){
+            ds_list_add( contains, inst )
+        }
     }
 }
-frame += 1
+frame ++
 </string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string></string>
           </argument>
         </arguments>
       </action>
