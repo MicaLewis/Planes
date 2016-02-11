@@ -31,8 +31,8 @@ freq = 1
 frame = 0
 
 calc = script_get_name(Arc_Collision)
-x1 = 10
-y1 = 100
+x1 = -30
+y1 = 
 x2 = 
 y2 = 0
 </string>
@@ -90,7 +90,8 @@ frame ++
         <arguments>
           <argument>
             <kind>1</kind>
-            <string></string>
+            <string>draw_circle(x,y,x1,x2,)
+</string>
           </argument>
         </arguments>
       </action>

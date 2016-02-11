@@ -8,4 +8,6 @@ radius2 = argument5
 anglTo = point_direction(x, y, px, py)
 dist = distance_to_point(x, y)
 
-return anglTo > angle1 and anglTo < angle2 and dist < radius1 and dist > radius2
+return angle_difference(anglTo, angle1) > 0 and
+    angle_difference(anglTo, angle2) < 0 and
+    dist < radius1 and dist > radius2
