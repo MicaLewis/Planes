@@ -26,7 +26,7 @@
           <argument>
             <kind>1</kind>
             <string>contains = ds_list_create()
-
+parent = noone
 freq = 1
 frame = 0
 
@@ -35,6 +35,9 @@ x1 = -30
 y1 = 30
 x2 = 100
 y2 = 10
+
+ofstX = 0
+ofstY = 0
 </string>
           </argument>
         </arguments>
@@ -67,6 +70,12 @@ y2 = 10
     }
 }
 frame ++
+
+if(parent != noone and instance_exists(parent)){
+    image_angle = parent.image_angle;
+    x = parent.x + ofstX*dcos(image_angle)
+    y = parent.y + ofstY*dsin(image_angle)
+}
 </string>
           </argument>
         </arguments>

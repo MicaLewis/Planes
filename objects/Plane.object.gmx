@@ -27,7 +27,12 @@
             <kind>1</kind>
             <string>show_debug_overlay(true)
 
+//controller = true
+selected = false
+
 trgts = ds_queue_create()
+
+health = 100
 
 radius = 0;
 anglTo = 0;
@@ -60,7 +65,7 @@ team = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(mouse_check_button_pressed(mb_right)){
+            <string>if(mouse_check_button_pressed(mb_right) and selected){
     if(!keyboard_check(vk_shift)){
         while(ds_queue_head(trgts) != 0){
             trgt = ds_queue_dequeue(trgts)
@@ -74,6 +79,9 @@ team = 0;
     else
         new.next = trgt
     ds_queue_enqueue(trgts, new)
+}
+if(mouse_check_button_pressed(mb_left)){
+    selected = distance_to_point(mouse_x, mouse_y) &lt; 20
 }
 
 trgt = ds_queue_head(trgts)
@@ -127,6 +135,12 @@ y -= dsin(angl)*spd
           <argument>
             <kind>1</kind>
             <string>draw_sprite_ext(sprite_index, -1, x, y, 1, 1, angl, c_white, 1)
+if(selected){
+    draw_set_colour(c_blue)
+} else {
+    draw_set_colour(c_gray)
+}
+draw_circle(x,y,20,true);
 
 //draw_circle( x + dcos(angl+90*sign(anglTo))*radius,
 //    y + dsin(angl-90*sign(anglTo))*radius, radius, true )
