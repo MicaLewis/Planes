@@ -26,11 +26,14 @@
           <argument>
             <kind>1</kind>
             <string>plane = noone;
+for(i = 0; i &lt; instance_number(Plane); i ++){
+    inst = instance_find(Plane, i)
+    if(distance_to_point(inst.x, inst.y) &lt; 10)
+        plane = inst
+}
 
 range = instance_create(x,y,Range);
-with(range){
-    
-}
+range.parent = plane
 
 selectable = false;
 effect = damage;

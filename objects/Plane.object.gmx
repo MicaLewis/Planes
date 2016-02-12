@@ -36,9 +36,9 @@ health = 100
 
 radius = 0;
 anglTo = 0;
-maxspd = 5;
-minspd = 1;
-spd = 5;
+maxspd = .5;
+minspd = .1;
+spd = .1;
 angl = 0;
 anglSpd = 3;
 team = 0;
@@ -80,38 +80,39 @@ team = 0;
         new.next = trgt
     ds_queue_enqueue(trgts, new)
 }
+
 if(mouse_check_button_pressed(mb_left)){
     selected = distance_to_point(mouse_x, mouse_y) &lt; 20
 }
 
 trgt = ds_queue_head(trgts)
 radius = 180/anglSpd*spd/pi
-
-if(trgt != 0){
-    anglTo = angle_difference(point_direction(x, y, trgt.x, trgt.y), angl)
-    angl += min(abs(anglTo), anglSpd) * sign(anglTo)
-    inRadius = point_distance(trgt.x, trgt.y,
-        x + dcos(angl+90*sign(anglTo))*radius,
-        y + dsin(angl-90*sign(anglTo))*radius) &lt; radius
-    if(inRadius){
-        spd -= min(.05, spd-minspd)
+if(selected){
+    if(trgt != 0){
+        anglTo = angle_difference(point_direction(x, y, trgt.x, trgt.y), angl)
+        angl += min(abs(anglTo), anglSpd) * sign(anglTo)
+        inRadius = point_distance(trgt.x, trgt.y,
+            x + dcos(angl+90*sign(anglTo))*radius,
+            y + dsin(angl-90*sign(anglTo))*radius) &lt; radius
+        if(inRadius){
+            spd -= min(.05, spd-minspd)
+        } else {
+            spd += min(.05, maxspd-spd)
+        }
+        if(point_distance(x,y,trgt.x,trgt.y) &lt; spd or (spd == minspd and inRadius)){
+            trgt = ds_queue_dequeue(trgts)
+            with(trgt) instance_destroy();
+            trgt = ds_queue_head(trgts)
+            trgt.next = id
+        }
     } else {
+        angl += anglSpd
         spd += min(.05, maxspd-spd)
     }
-    if(point_distance(x,y,trgt.x,trgt.y) &lt; spd or (spd == minspd and inRadius)){
-        trgt = ds_queue_dequeue(trgts)
-        with(trgt) instance_destroy();
-        trgt = ds_queue_head(trgts)
-        trgt.next = id
-    }
-} else {
-    angl += anglSpd
-    spd += min(.05, maxspd-spd)
-}
-
+image_angle = angl
 x += dcos(angl)*spd
 y -= dsin(angl)*spd
-
+}
 </string>
           </argument>
         </arguments>
@@ -134,13 +135,15 @@ y -= dsin(angl)*spd
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_sprite_ext(sprite_index, -1, x, y, 1, 1, angl, c_white, 1)
+            <string>image_angle = angl
+
+//draw_sprite_ext(sprite_index, -1, x, y, 1, 1, angl, c_white, 255)
 if(selected){
     draw_set_colour(c_blue)
 } else {
     draw_set_colour(c_gray)
 }
-draw_circle(x,y,20,true);
+draw_circle(x,y,3,true);
 
 //draw_circle( x + dcos(angl+90*sign(anglTo))*radius,
 //    y + dsin(angl-90*sign(anglTo))*radius, radius, true )
