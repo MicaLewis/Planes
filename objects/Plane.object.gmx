@@ -28,12 +28,11 @@
             <string>show_debug_overlay(true)
 
 //controller = true
-selected = false
+dead = false
 
-trgts = ds_queue_create()
+trgt = noone;
 
-health = 100
-
+hlth = 100
 radius = 0;
 anglTo = 0;
 maxspd = .5;
@@ -43,6 +42,10 @@ angl = 0;
 anglSpd = 3;
 team = 0;
 //drag = 10;
+
+var wep = instance_create(x, y, Weapon);
+wep.plane = id
+wep.range.parent = id
 </string>
           </argument>
         </arguments>
@@ -65,7 +68,9 @@ team = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(mouse_check_button_pressed(mb_right) and selected){
+            <string>
+//built in mouse control
+/**if(mouse_check_button_pressed(mb_right)){
     if(!keyboard_check(vk_shift)){
         while(ds_queue_head(trgts) != 0){
             trgt = ds_queue_dequeue(trgts)
@@ -79,39 +84,39 @@ team = 0;
     else
         new.next = trgt
     ds_queue_enqueue(trgts, new)
-}
+}**/
 
-if(mouse_check_button_pressed(mb_left)){
-    selected = distance_to_point(mouse_x, mouse_y) &lt; 20
+if(hlth &lt;= 0){
+    dead = true;
 }
+if(fps != 0) timespd = global.warp * 60/fps
+else timespd = global.warp
 
-trgt = ds_queue_head(trgts)
 radius = 180/anglSpd*spd/pi
-if(selected){
-    if(trgt != 0){
+if(!dead){
+    if(trgt != noone){
         anglTo = angle_difference(point_direction(x, y, trgt.x, trgt.y), angl)
         angl += min(abs(anglTo), anglSpd) * sign(anglTo)
         inRadius = point_distance(trgt.x, trgt.y,
             x + dcos(angl+90*sign(anglTo))*radius,
             y + dsin(angl-90*sign(anglTo))*radius) &lt; radius
         if(inRadius){
-            spd -= min(.05, spd-minspd)
+            spd -= min(.05*timespd, spd-minspd)
         } else {
-            spd += min(.05, maxspd-spd)
+            spd += min(.05*timespd, maxspd-spd)
         }
         if(point_distance(x,y,trgt.x,trgt.y) &lt; spd or (spd == minspd and inRadius)){
-            trgt = ds_queue_dequeue(trgts)
-            with(trgt) instance_destroy();
-            trgt = ds_queue_head(trgts)
-            trgt.next = id
+            old = trgt
+            trgt = trgt.next
+            with(old) instance_destroy()
         }
     } else {
-        angl += anglSpd
+        angl += anglSpd*timespd
         spd += min(.05, maxspd-spd)
     }
 image_angle = angl
-x += dcos(angl)*spd
-y -= dsin(angl)*spd
+x += dcos(angl)*spd*timespd
+y -= dsin(angl)*spd*timespd
 }
 </string>
           </argument>
@@ -138,12 +143,14 @@ y -= dsin(angl)*spd
             <string>image_angle = angl
 
 //draw_sprite_ext(sprite_index, -1, x, y, 1, 1, angl, c_white, 255)
-if(selected){
+if(!dead){
     draw_set_colour(c_blue)
+    draw_text(x,y,string(hlth))
 } else {
-    draw_set_colour(c_gray)
+    draw_set_colour(c_red)
+    draw_line(x+5,y+5,x-5,y-5)
+    draw_line(x+5,y-5,x-5,y+5)
 }
-draw_circle(x,y,3,true);
 
 //draw_circle( x + dcos(angl+90*sign(anglTo))*radius,
 //    y + dsin(angl-90*sign(anglTo))*radius, radius, true )

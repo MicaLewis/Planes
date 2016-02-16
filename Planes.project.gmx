@@ -14,7 +14,7 @@
   <paths name="paths"/>
   <scripts name="scripts">
     <script>scripts\Arc_Collision.gml</script>
-    <script>scripts\damage.gml</script>
+    <script>scripts\Damage.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\Plane</object>
