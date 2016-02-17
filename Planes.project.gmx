@@ -15,6 +15,7 @@
   <scripts name="scripts">
     <script>scripts\Arc_Collision.gml</script>
     <script>scripts\Damage.gml</script>
+    <script>scripts\clear_targets.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\Plane</object>

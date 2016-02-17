@@ -71,7 +71,12 @@ for(i = 0; i &lt; instance_number(Plane); i ++){
 if(mouse_check_button_pressed(mb_right)){
     for(i = 0; i &lt; ds_list_size(selected); i++){
         inst = ds_list_find_value(selected, i)
+        
         if(inst.trgt == noone){
+            inst.trgt = instance_create(mouse_x, mouse_y, Target)
+        } else if(!keyboard_check(vk_shift)) {
+            clear_targets(inst.trgt)
+            inst.trgt = noone
             inst.trgt = instance_create(mouse_x, mouse_y, Target)
         } else {
             var t = inst.trgt
