@@ -45,7 +45,6 @@ team = 0;
 
 var wep = instance_create(x, y, Weapon);
 wep.plane = id
-wep.range.parent = id
 </string>
           </argument>
         </arguments>
@@ -146,7 +145,7 @@ y -= dsin(angl)*spd*timespd
 //draw_sprite_ext(sprite_index, -1, x, y, 1, 1, angl, c_white, 255)
 if(!dead){
     draw_set_colour(c_blue)
-    draw_text(x,y,string(hlth))
+    draw_sprite_ext(sprite_index, -1, x, y, 1, 1, angl, c_white, 255)
 } else {
     draw_set_colour(c_red)
     draw_line(x+5,y+5,x-5,y-5)

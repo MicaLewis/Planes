@@ -27,11 +27,19 @@
             <kind>1</kind>
             <string>plane = noone;
 
-range = instance_create(x,y,Range);
-range.parent = plane
+contains = ds_list_create()
 
 selectable = false;
 effect = Damage;
+
+angl = 0;
+arc = 30
+maxDist = 100;
+minDist = 10;
+
+ofstX = 0
+ofstY = 0
+
 
 </string>
           </argument>
@@ -55,7 +63,59 @@ effect = Damage;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>script_execute( effect, range.contains, 10)
+            <string>if(plane != noone and instance_exists(plane)){
+    image_angle = plane.image_angle;
+    x = plane.x + ofstX*dsin(image_angle)
+    y = plane.y + ofstX*dcos(image_angle)
+    x = plane.x + ofstY*dsin(image_angle)
+    y = plane.y + ofstY*dcos(image_angle)
+}
+
+ds_list_clear(contains)
+for(i = 0; i &lt; instance_number(Plane); i ++){
+    inst = instance_find(Plane, i)
+    if ( script_execute(Arc_Collision, inst, image_angle+angl-arc/2,
+        image_angle+angl+arc/2, minDist, maxDist) ){
+        ds_list_add( contains, inst )
+    }
+}
+
+script_execute( effect, contains, 10)
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>draw_set_colour(c_red)
+
+draw_circle(x,y,minDist,true)
+draw_circle(x,y,maxDist,true)
+draw_line(x + dcos(image_angle+angl+arc/2)*minDist, y - dsin(image_angle+angl+arc/2)*minDist,
+    x + dcos(image_angle+angl+arc/2)*maxDist, y - dsin(image_angle+angl+arc/2)*maxDist)
+draw_line(x + dcos(image_angle+angl-arc/2)*minDist, y - dsin(image_angle+angl-arc/2)*minDist,
+    x + dcos(image_angle+angl-arc/2)*maxDist, y - dsin(image_angle+angl-arc/2)*maxDist)
+
+for(i = 0; i &lt; ds_list_size(contains); i ++ ) {
+    inst = ds_list_find_value(contains, i)
+    draw_circle(inst.x, inst.y, 5, false)
+}
 </string>
           </argument>
         </arguments>
