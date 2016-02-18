@@ -93,7 +93,7 @@ if(fps != 0) timespd = global.warp * 60/fps
 else timespd = global.warp
 
 radius = 180/anglSpd*spd/pi
-if(!dead){
+if(!dead and !global.pause){
     if(trgt != noone){
         anglTo = angle_difference(point_direction(x, y, trgt.x, trgt.y), angl)
         angl += min(abs(anglTo), anglSpd) * sign(anglTo)
@@ -144,8 +144,10 @@ y -= dsin(angl)*spd*timespd
 
 //draw_sprite_ext(sprite_index, -1, x, y, 1, 1, angl, c_white, 255)
 if(!dead){
-    draw_set_colour(c_blue)
+    draw_set_colour(c_black)
     draw_sprite_ext(sprite_index, -1, x, y, 1, 1, angl, c_white, 255)
+    if(trgt != noone)
+        draw_line(x,y,trgt.x,trgt.y)
 } else {
     draw_set_colour(c_red)
     draw_line(x+5,y+5,x-5,y-5)

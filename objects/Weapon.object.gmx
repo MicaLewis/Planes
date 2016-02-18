@@ -105,8 +105,8 @@ script_execute( effect, contains, 10)
             <kind>1</kind>
             <string>draw_set_colour(c_red)
 
-draw_circle(x,y,minDist,true)
-draw_circle(x,y,maxDist,true)
+draw_arc(x,y, maxDist, image_angle+angl-arc/2, image_angle+angl+arc/2)
+draw_arc(x,y, minDist, image_angle+angl-arc/2, image_angle+angl+arc/2)
 draw_line(x + dcos(image_angle+angl+arc/2)*minDist, y - dsin(image_angle+angl+arc/2)*minDist,
     x + dcos(image_angle+angl+arc/2)*maxDist, y - dsin(image_angle+angl+arc/2)*maxDist)
 draw_line(x + dcos(image_angle+angl-arc/2)*minDist, y - dsin(image_angle+angl-arc/2)*minDist,

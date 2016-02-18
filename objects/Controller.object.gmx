@@ -29,6 +29,7 @@
 
 selected = ds_list_create()
 global.warp = 1;
+global.pause = true;
 
 for(i = 0; i &lt; instance_number(Plane); i ++){
     inst = instance_find(Plane, i)
@@ -88,10 +89,8 @@ if(mouse_check_button_pressed(mb_right)){
     }
 }
 
-if(keyboard_check(vk_space)){
-    global.warp = 0
-} else {
-    global.warp = 1
+if(keyboard_check_pressed(vk_space)){
+    global.pause = !global.pause;
 }
 </string>
           </argument>
