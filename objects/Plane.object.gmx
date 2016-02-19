@@ -31,7 +31,7 @@
 dead = false
 
 trgt = noone;
-
+controller = noone;
 hlth = 100
 radius = 0;
 anglTo = 0;
@@ -67,33 +67,19 @@ wep.plane = id
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>
-//built in mouse control
-/**if(mouse_check_button_pressed(mb_right)){
-    if(!keyboard_check(vk_shift)){
-        while(ds_queue_head(trgts) != 0){
-            trgt = ds_queue_dequeue(trgts)
-            with(trgt) instance_destroy()
-        }
-    }
-    trgt = ds_queue_tail(trgts)
-    new = instance_create(mouse_x, mouse_y, Target)
-    if(trgt == 0)
-        new.next = id
-    else
-        new.next = trgt
-    ds_queue_enqueue(trgts, new)
-}**/
+            <string>///plane movement
 
 if(hlth &lt;= 0){
     dead = true;
     clear_targets(trgt)
+    controller_delete(controller, id)
 }
+
 if(fps != 0) timespd = global.warp * 60/fps
 else timespd = global.warp
 
 radius = 180/anglSpd*spd/pi
-if(!dead and !global.pause){
+if(!global.pause and !dead){
     if(trgt != noone){
         anglTo = angle_difference(point_direction(x, y, trgt.x, trgt.y), angl)
         angl += min(abs(anglTo), anglSpd) * sign(anglTo)
@@ -114,9 +100,9 @@ if(!dead and !global.pause){
         angl += anglSpd*timespd
         spd += min(.05, maxspd-spd)
     }
-image_angle = angl
-x += dcos(angl)*spd*timespd
-y -= dsin(angl)*spd*timespd
+    image_angle = angl
+    x += dcos(angl)*spd*timespd
+    y -= dsin(angl)*spd*timespd
 }
 </string>
           </argument>

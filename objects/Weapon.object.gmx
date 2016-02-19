@@ -27,6 +27,7 @@
             <kind>1</kind>
             <string>plane = noone;
 
+toCheck = ds_list_create()
 contains = ds_list_create()
 
 selectable = false;
@@ -63,7 +64,10 @@ ofstY = 0
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(plane != noone and instance_exists(plane)){
+            <string>if(plane.dead)
+    instance_deactivate_object(id)
+
+if(plane != noone and instance_exists(plane)){
     image_angle = plane.image_angle;
     x = plane.x + ofstX*dsin(image_angle)
     y = plane.y + ofstX*dcos(image_angle)
@@ -79,7 +83,6 @@ for(i = 0; i &lt; instance_number(Plane); i ++){
         ds_list_add( contains, inst )
     }
 }
-
 script_execute( effect, contains, 10)
 </string>
           </argument>
@@ -103,7 +106,8 @@ script_execute( effect, contains, 10)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_set_colour(c_red)
+            <string>
+draw_set_colour(c_red)
 
 draw_arc(x,y, maxDist, image_angle+angl-arc/2, image_angle+angl+arc/2)
 draw_arc(x,y, minDist, image_angle+angl-arc/2, image_angle+angl+arc/2)

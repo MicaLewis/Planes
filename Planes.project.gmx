@@ -17,6 +17,7 @@
     <script>scripts\Damage.gml</script>
     <script>scripts\clear_targets.gml</script>
     <script>scripts\draw_arc.gml</script>
+    <script>scripts\controller_delete.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\Plane</object>

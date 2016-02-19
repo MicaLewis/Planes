@@ -26,14 +26,19 @@
           <argument>
             <kind>1</kind>
             <string>planes = ds_list_create()
-
 selected = ds_list_create()
+
 global.warp = 1;
 global.pause = true;
 
-for(i = 0; i &lt; instance_number(Plane); i ++){
-    inst = instance_find(Plane, i)
+for(i = 0; i &lt; 5; i ++){
+    inst = instance_create(x, y + i*50, Plane)
     ds_list_add(planes, inst)
+    inst.controller = id
+}
+
+for(i = 0; i &lt; planes; i ++){
+    
 }
 </string>
           </argument>
@@ -57,13 +62,17 @@ for(i = 0; i &lt; instance_number(Plane); i ++){
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if( mouse_check_button_pressed(mb_left)){
+            <string>///Mouse Clicks
+
+if( mouse_check_button_pressed(mb_left)){
     if(!keyboard_check(vk_shift)){
         ds_list_clear(selected);
     }
     for(i = 0; i &lt; ds_list_size(planes); i++){
         inst = ds_list_find_value(planes, i)
-        if( point_distance(inst.x, inst.y, mouse_x, mouse_y) &lt; 5){
+        if(inst.dead){
+            ds_list_delete(planes, i)
+        } else if( point_distance(inst.x, inst.y, mouse_x, mouse_y) &lt; 5 ){
             ds_list_add(selected, inst);
         }
     }
