@@ -25,7 +25,9 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>planes = ds_list_create()
+            <string>///Initializations
+
+planes = ds_list_create()
 selected = ds_list_create()
 
 global.warp = 1;
@@ -37,9 +39,7 @@ for(i = 0; i &lt; 5; i ++){
     inst.controller = id
 }
 
-for(i = 0; i &lt; planes; i ++){
-    
-}
+method = controller_user
 </string>
           </argument>
         </arguments>
@@ -64,6 +64,7 @@ for(i = 0; i &lt; planes; i ++){
             <kind>1</kind>
             <string>///Mouse Clicks
 
+/**
 if( mouse_check_button_pressed(mb_left)){
     if(!keyboard_check(vk_shift)){
         ds_list_clear(selected);
@@ -100,7 +101,9 @@ if(mouse_check_button_pressed(mb_right)){
 
 if(keyboard_check_pressed(vk_space)){
     global.pause = !global.pause;
-}
+}**/
+
+script_execute(method);
 </string>
           </argument>
         </arguments>

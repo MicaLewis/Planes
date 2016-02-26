@@ -31,10 +31,10 @@ toCheck = ds_list_create()
 contains = ds_list_create()
 
 selectable = false;
-effect = Damage;
+effect = damage;
 
 angl = 0;
-arc = 30
+arc = 54
 maxDist = 100;
 minDist = 10;
 
@@ -78,7 +78,7 @@ if(plane != noone and instance_exists(plane)){
 ds_list_clear(contains)
 for(i = 0; i &lt; instance_number(Plane); i ++){
     inst = instance_find(Plane, i)
-    if ( script_execute(Arc_Collision, inst, image_angle+angl-arc/2,
+    if ( script_execute(collision_arc, inst, image_angle+angl-arc/2,
         image_angle+angl+arc/2, minDist, maxDist) ){
         ds_list_add( contains, inst )
     }

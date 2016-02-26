@@ -13,11 +13,19 @@
   <backgrounds name="background"/>
   <paths name="paths"/>
   <scripts name="scripts">
-    <script>scripts\Arc_Collision.gml</script>
-    <script>scripts\Damage.gml</script>
+    <script>scripts\collision_arc.gml</script>
     <script>scripts\clear_targets.gml</script>
     <script>scripts\draw_arc.gml</script>
-    <script>scripts\controller_delete.gml</script>
+    <scripts name="affector">
+      <script>scripts\damage.gml</script>
+    </scripts>
+    <scripts name="controller">
+      <script>scripts\controller_delete.gml</script>
+      <script>scripts\controller_user.gml</script>
+    </scripts>
+    <scripts name="plane">
+      <script>scripts\plane_generic.gml</script>
+    </scripts>
   </scripts>
   <objects name="objects">
     <object>objects\Plane</object>

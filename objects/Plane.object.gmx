@@ -35,11 +35,11 @@ controller = noone;
 hlth = 100
 radius = 0;
 anglTo = 0;
-maxspd = .5;
-minspd = .1;
-spd = .1;
+maxspd = 2;
+minspd = .5;
+spd = 1;
 angl = 0;
-anglSpd = 3;
+anglSpd = 1;
 team = 0;
 //drag = 10;
 
@@ -78,31 +78,9 @@ if(hlth &lt;= 0){
 if(fps != 0) timespd = global.warp * 60/fps
 else timespd = global.warp
 
-radius = 180/anglSpd*spd/pi
+
 if(!global.pause and !dead){
-    if(trgt != noone){
-        anglTo = angle_difference(point_direction(x, y, trgt.x, trgt.y), angl)
-        angl += min(abs(anglTo), anglSpd) * sign(anglTo)
-        inRadius = point_distance(trgt.x, trgt.y,
-            x + dcos(angl+90*sign(anglTo))*radius,
-            y + dsin(angl-90*sign(anglTo))*radius) &lt; radius
-        if(inRadius){
-            spd -= min(.05*timespd, spd-minspd)
-        } else {
-            spd += min(.05*timespd, maxspd-spd)
-        }
-        if(point_distance(x,y,trgt.x,trgt.y) &lt; spd or (spd == minspd and inRadius)){
-            old = trgt
-            trgt = trgt.next
-            with(old) instance_destroy()
-        }
-    } else {
-        angl += anglSpd*timespd
-        spd += min(.05, maxspd-spd)
-    }
-    image_angle = angl
-    x += dcos(angl)*spd*timespd
-    y -= dsin(angl)*spd*timespd
+    script_execute(plane_generic)
 }
 </string>
           </argument>
@@ -140,8 +118,20 @@ if(!dead){
     draw_line(x+5,y-5,x-5,y+5)
 }
 
-//draw_circle( x + dcos(angl+90*sign(anglTo))*radius,
-//    y + dsin(angl-90*sign(anglTo))*radius, radius, true )
+if( trgt != noone and trgt.next != noone ) {
+    theta = toPlane + angle_difference(toNext, toPlane)/2
+    d = point_distance(0,0,effectiveDist,radius)
+    //draw_circle(trgt.x + d*dcos(theta), trgt.y - d*dsin(theta), radius, true)
+    draw_arc(trgt.x + d*dcos(theta), trgt.y - d*dsin(theta), radius,
+        180+theta - angle_difference(toNext, toPlane)/2, 180+theta + angle_difference(toNext, toPlane)/2)
+    draw_circle(trgt.x, trgt.y, effectiveDist, true)
+}
+
+draw_line(x, y, x + 20*dcos(angl), y - 20*dsin(angl))
+if(abs(anglTo) &gt; 1)
+        draw_circle( x + dcos(angl+90*sign(anglTo))*radius,
+            y + dsin(angl-90*sign(anglTo))*radius, radius, true)
+            
 </string>
           </argument>
         </arguments>
