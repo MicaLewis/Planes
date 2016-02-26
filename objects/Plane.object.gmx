@@ -117,14 +117,14 @@ if(!dead){
     draw_line(x+5,y+5,x-5,y-5)
     draw_line(x+5,y-5,x-5,y+5)
 }
-
+ 
 if( trgt != noone and trgt.next != noone ) {
     theta = toPlane + angle_difference(toNext, toPlane)/2
     d = point_distance(0,0,effectiveDist,radius)
     //draw_circle(trgt.x + d*dcos(theta), trgt.y - d*dsin(theta), radius, true)
     draw_arc(trgt.x + d*dcos(theta), trgt.y - d*dsin(theta), radius,
-        180+theta - angle_difference(toNext, toPlane)/2, 180+theta + angle_difference(toNext, toPlane)/2)
-    draw_circle(trgt.x, trgt.y, effectiveDist, true)
+        toPlane - 90*sign(angle_difference(toNext, toPlane)),
+        toNext + 90*sign(angle_difference(toNext, toPlane)))
 }
 
 draw_line(x, y, x + 20*dcos(angl), y - 20*dsin(angl))

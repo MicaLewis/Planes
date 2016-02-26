@@ -15,7 +15,7 @@ if(trgt != noone){
     if(trgt.next != noone){
         toPlane = point_direction(trgt.x, trgt.y, x, y)
         toNext = point_direction(trgt.x, trgt.y, trgt.next.x, trgt.next.y)
-        effectiveDist = radius/dtan(angle_difference(toPlane, toNext)/2)
+        effectiveDist = abs(radius/dtan(angle_difference(toPlane, toNext)/2))
     }
     
     if(inRadius){
