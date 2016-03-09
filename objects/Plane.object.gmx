@@ -106,32 +106,59 @@ if(!global.pause and !dead){
             <kind>1</kind>
             <string>image_angle = angl
 
+trx = x + dcos(angl+90*sign(anglTo))*radius;
+try = y + dsin(angl-90*sign(anglTo))*radius;
+
 //draw_sprite_ext(sprite_index, -1, x, y, 1, 1, angl, c_white, 255)
 if(!dead){
     draw_set_colour(c_black)
     draw_sprite_ext(sprite_index, -1, x, y, 1, 1, angl, c_white, 255)
-    if(trgt != noone)
-        draw_line(x,y,trgt.x,trgt.y)
+    draw_text(x + 10, y + 10, anglTo)
 } else {
     draw_set_colour(c_red)
     draw_line(x+5,y+5,x-5,y-5)
     draw_line(x+5,y-5,x-5,y+5)
 }
- 
-if( trgt != noone and trgt.next != noone ) {
-    theta = toPlane + angle_difference(toNext, toPlane)/2
-    d = point_distance(0,0,effectiveDist,radius)
-    //draw_circle(trgt.x + d*dcos(theta), trgt.y - d*dsin(theta), radius, true)
-    draw_arc(trgt.x + d*dcos(theta), trgt.y - d*dsin(theta), radius,
-        toPlane - 90*sign(angle_difference(toNext, toPlane)),
-        toNext + 90*sign(angle_difference(toNext, toPlane)))
+
+if(abs(anglTo) &gt; 1 or trgt != noone) {
+    draw_set_colour( c_aqua );
+    draw_circle( trx, try, radius, true);
 }
 
-draw_line(x, y, x + 20*dcos(angl), y - 20*dsin(angl))
-if(abs(anglTo) &gt; 1)
-        draw_circle( x + dcos(angl+90*sign(anglTo))*radius,
-            y + dsin(angl-90*sign(anglTo))*radius, radius, true)
-            
+if( trgt != noone and !dead ) {
+
+    draw_set_colour( c_black );
+
+    if( abs(anglTo) &gt; 1 and !point_in_circle(trgt.x, trgt.y, trx, try, radius)) {
+        draw_arc( trx, try, radius,
+            point_direction(trx, try, trgt.x, trgt.y) - 
+                darccos(radius/point_distance(trx, try, trgt.x, trgt.y)),
+            point_direction(trx, try, x, y));
+        
+        draw_line(trx + radius*dcos(point_direction(trx, try, trgt.x, trgt.y) - 
+            darccos(radius/point_distance(trx, try, trgt.x, trgt.y))),
+            try - radius*dsin(point_direction(trx, try, trgt.x, trgt.y) - 
+            darccos(radius/point_distance(trx, try, trgt.x, trgt.y))),
+            trgt.x,trgt.y);
+    } else {
+        draw_set_colour(c_blue)
+        draw_line(x ,y,trgt.x,trgt.y)
+    }
+    
+    if( trgt.next != noone ){
+        theta = toPlane + angle_difference(toNext, toPlane)/2
+        d = point_distance(0,0,effectiveDist,radius)
+        //draw_circle(trgt.x + d*dcos(theta), trgt.y - d*dsin(theta), radius, true)
+        draw_arc(trgt.x + d*dcos(theta), trgt.y - d*dsin(theta), radius,
+            toPlane - 90*sign(angle_difference(toNext, toPlane)),
+            toNext + 90*sign(angle_difference(toNext, toPlane)))
+    }
+}
+
+
+
+
+
 </string>
           </argument>
         </arguments>
