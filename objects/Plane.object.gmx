@@ -113,7 +113,6 @@ try = y + dsin(angl-90*sign(anglTo))*radius;
 if(!dead){
     draw_set_colour(c_black)
     draw_sprite_ext(sprite_index, -1, x, y, 1, 1, angl, c_white, 255)
-    draw_text(x + 10, y + 10, anglTo)
 } else {
     draw_set_colour(c_red)
     draw_line(x+5,y+5,x-5,y-5)
@@ -130,15 +129,18 @@ if( trgt != noone and !dead ) {
     draw_set_colour( c_black );
 
     if( abs(anglTo) &gt; 1 and !point_in_circle(trgt.x, trgt.y, trx, try, radius)) {
-        draw_arc( trx, try, radius,
-            point_direction(trx, try, trgt.x, trgt.y) - 
-                darccos(radius/point_distance(trx, try, trgt.x, trgt.y)),
+        theta = darccos(radius/point_distance(trx, try, trgt.x, trgt.y))
+        theta = point_direction(trx, try, trgt.x, trgt.y) - sign(anglTo)*theta
+        theta = theta % 360 
+        
+        draw_arc( trx, try, radius, theta,
             point_direction(trx, try, x, y));
         
-        draw_line(trx + radius*dcos(point_direction(trx, try, trgt.x, trgt.y) - 
-            darccos(radius/point_distance(trx, try, trgt.x, trgt.y))),
-            try - radius*dsin(point_direction(trx, try, trgt.x, trgt.y) - 
-            darccos(radius/point_distance(trx, try, trgt.x, trgt.y))),
+        draw_text(x, y+10, "theta: " + string(theta));
+        //draw_text(x, y+30, "to plane: " + string(point_direction(trx, try, x, y)));
+            
+        draw_line(trx + radius*dcos(theta),
+            try - radius*dsin(theta),
             trgt.x,trgt.y);
     } else {
         draw_set_colour(c_blue)

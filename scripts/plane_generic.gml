@@ -31,7 +31,7 @@ if(trgt != noone){
         with(old) instance_destroy()
     }
 } else {
-    angl += anglSpd*timespd
+    angl = (angl + anglSpd*timespd)%360
     spd += min(.05, maxspd-spd)
 }
 image_angle = angl

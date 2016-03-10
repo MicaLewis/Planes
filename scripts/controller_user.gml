@@ -14,7 +14,10 @@ if( mouse_check_button_pressed(mb_left)){
     }
 }
 
+
+currentTrgt = noone;
 if(mouse_check_button_pressed(mb_right)){
+    currentTrgt = instance_create(mouse_x, mouse_y, Target)
     for(i = 0; i < ds_list_size(selected); i++){
         inst = ds_list_find_value(selected, i)
         
@@ -33,6 +36,7 @@ if(mouse_check_button_pressed(mb_right)){
         }
     }
 }
+
 
 if(keyboard_check_pressed(vk_space)){
     global.pause = !global.pause;
